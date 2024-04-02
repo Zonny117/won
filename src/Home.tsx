@@ -31,8 +31,8 @@ function Home() {
   const spring = useSpring(scrollYProgress, { bounce: 0 });
 
   // 스크롤 가로값은 컨텐츠 뷰포트 가로길이 - 컨텐츠 총 가로길이
-  // 스크롤바 가로값은 17정도 되는데 이는 여백으로 조절하자
-  const scrollWidth = window.innerWidth - 3100 - 17;
+  // 스크롤바 가로값은 17정도 되는데 이는 컨텐츠 오른쪽 여백으로 조절하자
+  const scrollWidth = window.innerWidth - 3100;
   const x = useTransform(spring, [0, 1], ['0px', `${scrollWidth}px`]);
 
   return (
@@ -41,10 +41,11 @@ function Home() {
         <div id="sticky">
           <motion.div id="contents" style={{ x }}>
             <Intro />
-            <Projects />
+            <Projects scrollYProgress={scrollYProgress} />
           </motion.div>
         </div>
       </div>
+      <div>인포박스</div>
     </Wrap>
   );
 }
