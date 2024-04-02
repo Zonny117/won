@@ -30,7 +30,7 @@ function Home() {
   const { scrollYProgress } = useScroll({ target: horizonRef });
   const spring = useSpring(scrollYProgress, { bounce: 0 });
 
-  // 스크롤 가로값은 컨텐츠 뷰포트 가로길이 - 컨텐츠 총 가로길이
+  // 스크롤 가로값은 컨텐츠 뷰포트 가로길이 - 컨텐츠 총 가로길이(인트로와 프로젝트의 가로값의 합)
   // 스크롤바 가로값은 17정도 되는데 이는 컨텐츠 오른쪽 여백으로 조절하자
   const scrollWidth = window.innerWidth - 3100;
   const x = useTransform(spring, [0, 1], ['0px', `${scrollWidth}px`]);
