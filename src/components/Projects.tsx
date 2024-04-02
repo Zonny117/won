@@ -1,5 +1,10 @@
 import { MotionValue, useTransform, motion } from 'framer-motion';
+import React from 'react';
 import styled from 'styled-components';
+
+type Props = {
+  scrollYProgress: MotionValue<number>;
+};
 
 const Wrap = styled.div`
   display: flex;
@@ -41,27 +46,23 @@ function Span({
   );
 }
 
-function Projects({
-  scrollYProgress,
-}: {
-  scrollYProgress: MotionValue<number>;
-}) {
-  return (
-    <Wrap>
-      {dummy.map((_i, idx) => {
-        const percent = 100 / (idx + 1);
-        const discount = (100 - Math.floor(percent)) * 0.01;
+const Projects = React.forwardRef<HTMLDivElement, Props>(
+  ({ scrollYProgress }: Props, ref) => {
+    return (
+      <Wrap ref={ref}>
+        {dummy.map((_i, idx) => {
+          const percent = 100 / (idx + 1);
+          const discount = (100 - Math.floor(percent)) * 0.01;
 
-        console.log(discount);
-
-        return (
-          <div key={idx}>
-            <Span scrollYProgress={scrollYProgress} opa={discount}></Span>
-          </div>
-        );
-      })}
-    </Wrap>
-  );
-}
+          return (
+            <div key={idx}>
+              <Span scrollYProgress={scrollYProgress} opa={discount}></Span>
+            </div>
+          );
+        })}
+      </Wrap>
+    );
+  }
+);
 
 export default Projects;

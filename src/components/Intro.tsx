@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const Wrap = styled.div`
@@ -7,8 +8,8 @@ const Wrap = styled.div`
   background-color: #000;
 `;
 
-function Intro() {
-  return <Wrap></Wrap>;
-}
+const Intro = React.forwardRef<HTMLDivElement>((_props, ref) => {
+  return <Wrap ref={ref}></Wrap>;
+});
 
 export default Intro;

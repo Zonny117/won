@@ -2,7 +2,7 @@ import Intro from '@components/Intro';
 import Projects from '@components/Projects';
 import styled from 'styled-components';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Wrap = styled.div`
   #horizontal {
@@ -26,22 +26,34 @@ const Wrap = styled.div`
 `;
 
 function Home() {
+  const [width, setWidth] = useState<number>(0);
   const horizonRef = useRef<HTMLDivElement>(null);
+  const widthRef = useRef<(HTMLDivElement | null)[]>([]);
   const { scrollYProgress } = useScroll({ target: horizonRef });
   const spring = useSpring(scrollYProgress, { bounce: 0 });
 
+  const x = useTransform(spring, [0, 1], ['0px', `${width}px`]);
+  
   // 스크롤 가로값은 컨텐츠 뷰포트 가로길이 - 컨텐츠 총 가로길이(인트로와 프로젝트의 가로값의 합)
   // 스크롤바 가로값은 17정도 되는데 이는 컨텐츠 오른쪽 여백으로 조절하자
-  const scrollWidth = window.innerWidth - 3100;
-  const x = useTransform(spring, [0, 1], ['0px', `${scrollWidth}px`]);
+  useEffect(() => {
+    let sum = 0;
+    widthRef.current.forEach(i => {
+      sum += i!.clientWidth;
+      setWidth(window.innerWidth - sum);
+    });
+  }, []);
 
   return (
     <Wrap>
       <div id="horizontal" ref={horizonRef}>
         <div id="sticky">
           <motion.div id="contents" style={{ x }}>
-            <Intro />
-            <Projects scrollYProgress={scrollYProgress} />
+            <Intro ref={t => (widthRef.current[0] = t)} />
+            <Projects
+              ref={t => (widthRef.current[1] = t)}
+              scrollYProgress={scrollYProgress}
+            />
           </motion.div>
         </div>
       </div>
