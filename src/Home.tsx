@@ -3,7 +3,7 @@ import Projects from '@components/Projects';
 import styled from 'styled-components';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from './redux/hooks';
+import { useAppSelector } from '@/redux/hooks';
 
 const Wrap = styled.div`
   &.preventScroll {
